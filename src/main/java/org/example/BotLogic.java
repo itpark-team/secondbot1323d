@@ -6,8 +6,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BotLogic {
+
+    private Random random = new Random();
+    private TableJokes tableJokes = new TableJokes();
+
+
     public void processTextMessageFromUser(String textFromUser, SendMessage messageToUser) {
         if (textFromUser.equals("/start")) {
             String textToUser = "На связи бот утреннего шоу. Выбери на кнопку что вы хотите";
@@ -56,7 +62,12 @@ public class BotLogic {
         String textToUser = "";
 
         if (textFromUser.equals("Joke")) {
-            textToUser = "Типо смешная шутка";
+
+            ArrayList<Joke> jokes = tableJokes.getAllJokes();
+            int index = random.nextInt(jokes.size());
+
+            textToUser = jokes.get(index).getJokeText();
+
         } else if (textFromUser.equals("Weather")) {
             textToUser = "Типо прогноз погоды";
         } else if (textFromUser.equals("Music")) {
